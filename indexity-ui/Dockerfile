@@ -1,7 +1,9 @@
 ### STAGE 1: Build ###
 
 # We label our stage as 'builder'
-FROM node:10-alpine as builder
+# node-sass 4.x has no Linux ARM64 binary. Build the static assets on amd64;
+# the nginx runtime below still uses the requested target architecture.
+FROM --platform=linux/amd64 node:10-alpine as builder
 
 
 COPY package.json package-lock.json ./
